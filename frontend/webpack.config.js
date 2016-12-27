@@ -7,7 +7,13 @@ module.exports = {
     resolve: {
         root: __dirname + "/app",
         alias: {
-            BooksLibrary: "components/BooksLibrary.jsx"
+            BooksLibrary: "components/BooksLibrary.jsx",
+            actionsConstants: "constants/actionsConstants.jsx",
+            Book: "components/Book.jsx",
+            BooksList: "components/BooksList.jsx",
+            BooksForm: "components/BooksForm.jsx",
+            configureStore: "store/configureStore.jsx",
+            reducers: "reducers/reducers.jsx"
         },
         extensions: ["", ".js", ".jsx"]
     },
