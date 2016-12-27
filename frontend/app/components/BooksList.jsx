@@ -10,32 +10,34 @@ class BooksList extends Component {
         super(props);
     }
 
-    renderBooks() {
-        let { books } = this.props;
-        if (!books.length) {
-            return <h3>Книг пока нет.</h3>
-        }
-        return books.map((book) => {
 
+    renderBooks() {
+        let { books, searchText } = this.props;
+
+        // Поиск книг
+        books = books.filter((book) => {
+            let lowerCaseTitle = book.title.toLowerCase();
+            return lowerCaseTitle.indexOf(searchText.toLowerCase()) != -1;
+        });
+
+        if (!books.length) {
+            return <h3>Книг не найдено.</h3>
+        }
+
+        return books.map((book) => {
             if (book.editMode) {
                 return <BookForm {...book} key={book.id} />
             } else {
                 return <Book {...book} key={book.id} />
             }
-
-
-
         });
 
     }
 
     render() {
 
-        let { books } = this.props;
-
         return (
             <div className="books-list">
-                <h3>Количество книг: {books.length}</h3>
                 {this.renderBooks()}
             </div>
         );
@@ -43,6 +45,7 @@ class BooksList extends Component {
 }
 export default connect((state) => {
     return {
-        books: state.books
+        books: state.books,
+        searchText: state.searchText
     };
 })(BooksList);

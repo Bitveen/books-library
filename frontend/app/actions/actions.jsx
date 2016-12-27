@@ -12,3 +12,10 @@ export const cancelEditBook = (id) => {
         id
     };
 };
+
+export const searchBooks = (text) => {
+    return {
+        type: types.SET_SEARCH_VALUE,
+        text
+    };
+};

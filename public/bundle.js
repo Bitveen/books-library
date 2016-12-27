@@ -21512,6 +21512,10 @@
 
 	var _BooksList2 = _interopRequireDefault(_BooksList);
 
+	var _Search = __webpack_require__(230);
+
+	var _Search2 = _interopRequireDefault(_Search);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21554,6 +21558,8 @@
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "columns small-centered medium-6 large-6" },
+	                        _react2.default.createElement(_Search2.default, null),
+	                        _react2.default.createElement("hr", null),
 	                        _react2.default.createElement(_BooksList2.default, null)
 	                    )
 	                )
@@ -21614,17 +21620,26 @@
 	    _createClass(BooksList, [{
 	        key: "renderBooks",
 	        value: function renderBooks() {
-	            var books = this.props.books;
+	            var _props = this.props,
+	                books = _props.books,
+	                searchText = _props.searchText;
+
+	            // Поиск книг
+
+	            books = books.filter(function (book) {
+	                var lowerCaseTitle = book.title.toLowerCase();
+	                return lowerCaseTitle.indexOf(searchText.toLowerCase()) != -1;
+	            });
 
 	            if (!books.length) {
 	                return _react2.default.createElement(
 	                    "h3",
 	                    null,
-	                    "\u041A\u043D\u0438\u0433 \u043F\u043E\u043A\u0430 \u043D\u0435\u0442."
+	                    "\u041A\u043D\u0438\u0433 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E."
 	                );
 	            }
-	            return books.map(function (book) {
 
+	            return books.map(function (book) {
 	                if (book.editMode) {
 	                    return _react2.default.createElement(_BookForm2.default, _extends({}, book, { key: book.id }));
 	                } else {
@@ -21635,18 +21650,10 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var books = this.props.books;
-
 
 	            return _react2.default.createElement(
 	                "div",
 	                { className: "books-list" },
-	                _react2.default.createElement(
-	                    "h3",
-	                    null,
-	                    "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u043A\u043D\u0438\u0433: ",
-	                    books.length
-	                ),
 	                this.renderBooks()
 	            );
 	        }
@@ -21657,7 +21664,8 @@
 
 	exports.default = (0, _reactRedux.connect)(function (state) {
 	    return {
-	        books: state.books
+	        books: state.books,
+	        searchText: state.searchText
 	    };
 	})(BooksList);
 
@@ -21771,7 +21779,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.cancelEditBook = exports.editBook = undefined;
+	exports.searchBooks = exports.cancelEditBook = exports.editBook = undefined;
 
 	var _actionsConstants = __webpack_require__(182);
 
@@ -21792,6 +21800,13 @@
 	    };
 	};
 
+	var searchBooks = exports.searchBooks = function searchBooks(text) {
+	    return {
+	        type: types.SET_SEARCH_VALUE,
+	        text: text
+	    };
+	};
+
 /***/ },
 /* 182 */
 /***/ function(module, exports) {
@@ -21806,6 +21821,7 @@
 	var UPDATE_BOOK = exports.UPDATE_BOOK = "UPDATE_BOOK";
 	var EDIT_BOOK = exports.EDIT_BOOK = "EDIT_BOOK";
 	var CANCEL_EDIT_BOOK = exports.CANCEL_EDIT_BOOK = "CANCEL_EDIT_BOOK";
+	var SET_SEARCH_VALUE = exports.SET_SEARCH_VALUE = "SET_SEARCH_VALUE";
 
 /***/ },
 /* 183 */
@@ -24176,7 +24192,8 @@
 
 	var configureStore = exports.configureStore = function configureStore() {
 	    var reducer = (0, _redux.combineReducers)({
-	        books: _reducers.booksReducer
+	        books: _reducers.booksReducer,
+	        searchText: _reducers.searchReducer
 	    });
 	    return (0, _redux.createStore)(reducer);
 	};
@@ -24190,7 +24207,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.booksReducer = undefined;
+	exports.searchReducer = exports.booksReducer = undefined;
 
 	var _actionsConstants = __webpack_require__(182);
 
@@ -24248,6 +24265,20 @@
 	                }
 	            });
 	            return books;
+	        default:
+	            return state;
+	    }
+	};
+
+	var searchReducer = exports.searchReducer = function searchReducer() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SET_SEARCH_VALUE:
+	            var searchValue = action.text;
+	            return searchValue;
+	            break;
 	        default:
 	            return state;
 	    }
@@ -24636,10 +24667,74 @@
 
 
 	// module
-	exports.push([module.id, ".book:hover {\n  background-color: #f6f6f6;\n  cursor: pointer; }\n\n.books-list {\n  margin-top: 50px; }\n", ""]);
+	exports.push([module.id, ".book:hover {\n  background-color: #f6f6f6;\n  cursor: pointer; }\n\n.books-list {\n  margin-top: 50px; }\n\n.search {\n  margin-top: 30px; }\n", ""]);
 
 	// exports
 
+
+/***/ },
+/* 230 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _actions = __webpack_require__(181);
+
+	var _reactRedux = __webpack_require__(183);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Search = function (_Component) {
+	    _inherits(Search, _Component);
+
+	    function Search(props) {
+	        _classCallCheck(this, Search);
+
+	        var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+
+	        _this.handleSearch = _this.handleSearch.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(Search, [{
+	        key: "handleSearch",
+	        value: function handleSearch(e) {
+	            var dispatch = this.props.dispatch;
+
+	            var searchText = this.refs.searchText.value.trim();
+	            dispatch((0, _actions.searchBooks)(searchText));
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "search" },
+	                _react2.default.createElement("input", { type: "text", ref: "searchText", placeholder: "\u041D\u0430\u0447\u043D\u0438\u0442\u0435 \u0432\u0432\u043E\u0434\u0438\u0442\u044C \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u043A\u043D\u0438\u0433\u0438...", onChange: this.handleSearch })
+	            );
+	        }
+	    }]);
+
+	    return Search;
+	}(_react.Component);
+
+	exports.default = (0, _reactRedux.connect)()(Search);
 
 /***/ }
 /******/ ]);

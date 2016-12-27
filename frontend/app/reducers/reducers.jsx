@@ -57,3 +57,16 @@ export const booksReducer = (state = defaultState, action) => {
             return state;
     }
 };
+
+
+
+export const searchReducer = (state = "", action) => {
+    switch (action.type) {
+        case types.SET_SEARCH_VALUE:
+            let searchValue = action.text;
+            return searchValue;
+            break;
+        default:
+            return state;
+    }
+};

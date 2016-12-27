@@ -3,3 +3,4 @@ export const REMOVE_BOOK = "REMOVE_BOOK";
 export const UPDATE_BOOK = "UPDATE_BOOK";
 export const EDIT_BOOK = "EDIT_BOOK";
 export const CANCEL_EDIT_BOOK = "CANCEL_EDIT_BOOK";
+export const SET_SEARCH_VALUE = "SET_SEARCH_VALUE";

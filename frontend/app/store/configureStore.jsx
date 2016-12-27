@@ -1,9 +1,10 @@
 import { createStore, combineReducers } from "redux";
-import { booksReducer } from "reducers";
+import { booksReducer, searchReducer } from "reducers";
 
 export const configureStore = () => {
     const reducer = combineReducers({
-        books: booksReducer
+        books: booksReducer,
+        searchText: searchReducer
     });
     return createStore(reducer);
 };
