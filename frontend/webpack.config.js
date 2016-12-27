@@ -9,9 +9,10 @@ module.exports = {
         alias: {
             BooksLibrary: "components/BooksLibrary.jsx",
             actionsConstants: "constants/actionsConstants.jsx",
+            actions: "actions/actions.jsx",
             Book: "components/Book.jsx",
             BooksList: "components/BooksList.jsx",
-            BooksForm: "components/BooksForm.jsx",
+            BookForm: "components/BookForm.jsx",
             configureStore: "store/configureStore.jsx",
             reducers: "reducers/reducers.jsx"
         },

@@ -9,9 +9,16 @@ export default class BooksLibrary extends Component {
 
     render() {
         return (
-            <div className="row">
-                <div className="columns small-centered medium-6 large-6">
-                    <BooksList />
+            <div>
+                <div className="top-bar">
+                    <div className="top-bar-title">
+                        <strong>Книжная библиотека</strong>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="columns small-centered medium-6 large-6">
+                        <BooksList />
+                    </div>
                 </div>
             </div>
         );

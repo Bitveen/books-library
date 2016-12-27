@@ -1,15 +1,28 @@
 import React, { Component } from "react";
+import { editBook } from "actions";
+import { connect } from "react-redux";
 
 
-export default class Book extends Component {
+class Book extends Component {
     constructor(props) {
         super(props);
     }
 
+    renderTags() {
+        let { tags } = this.props;
+        if (tags.length) {
+            return tags.map((tag, key) => {
+                return <a key={key} href="#" className="button tiny hollow">{tag}</a>;
+            });
+        }
+    }
+
     render() {
-        let {title, author, pubDate, pages, id} = this.props;
+        let {title, author, pubDate, pages, id, dispatch} = this.props;
         return (
-            <div className="callout book">
+            <div className="callout book" onClick={() => {
+                    dispatch(editBook(id));
+                }}>
                 <h3>Название: {title}</h3>
                 <h4>Автор: {author}</h4>
                 <h5>Дата издания: {pubDate}</h5>
@@ -19,3 +32,6 @@ export default class Book extends Component {
     }
 
 }
+
+
+export default connect()(Book);

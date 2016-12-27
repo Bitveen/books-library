@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Book from "Book";
+import BookForm from "BookForm";
 import { connect } from "react-redux";
+
+
 
 class BooksList extends Component {
     constructor(props) {
@@ -13,17 +16,26 @@ class BooksList extends Component {
             return <h3>Книг пока нет.</h3>
         }
         return books.map((book) => {
-            return <Book {...book} key={book.id} />
+
+            if (book.editMode) {
+                return <BookForm {...book} key={book.id} />
+            } else {
+                return <Book {...book} key={book.id} />
+            }
+
+
+
         });
 
     }
 
     render() {
 
-
+        let { books } = this.props;
 
         return (
             <div className="books-list">
+                <h3>Количество книг: {books.length}</h3>
                 {this.renderBooks()}
             </div>
         );
