@@ -9,13 +9,8 @@ import { toggleAddBookForm } from "actions";
 class BooksList extends Component {
     constructor(props) {
         super(props);
-        this.showForm = this.showForm.bind(this);
     }
 
-    showForm() {
-        let { dispatch } = this.props;
-        dispatch(toggleAddBookForm());
-    }
 
     renderBooks() {
         let { books, searchText } = this.props;
@@ -27,7 +22,7 @@ class BooksList extends Component {
         });
 
         if (!books.length) {
-            return <h3>Книг не найдено.</h3>
+            return <h3 className="center-align">Couldn't find books.</h3>
         }
 
         return books.map((book) => {

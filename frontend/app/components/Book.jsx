@@ -23,7 +23,7 @@ class Book extends Component {
             <div className="col s12 m4 l4" onClick={() => {
                     dispatch(editBook(id));
                 }}>
-                <div className="card blue-grey darken-1">
+                <div className="card  hovered blue-grey darken-1">
                     <div className="card-content white-text">
                         <h4 className="card-title">{title}</h4>
                         <h6>{author}</h6>

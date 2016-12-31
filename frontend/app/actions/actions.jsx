@@ -25,3 +25,9 @@ export const toggleAddBookForm = () => {
         type: types.TOGGLE_ADD_BOOK_FORM
     };
 };
+export const saveBook = (book) => {
+    return {
+        type: types.SAVE_BOOK,
+        book: book
+    };
+};

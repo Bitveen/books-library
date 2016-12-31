@@ -1,25 +1,42 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import { cancelEditBook } from "actions";
+import { cancelEditBook, saveBook } from "actions";
 
 class BookForm extends Component {
     constructor(props) {
         super(props);
+        this.saveBook = this.saveBook.bind(this);
     }
 
+    saveBook() {
+        let { dispatch, id } = this.props;
+        let title = this.refs.title.value;
+        let author = this.refs.author.value;
+        if (title && author) {
+            dispatch(saveBook({ id, title, author }));
+            dispatch(cancelEditBook(id));
+        }
+
+    }
+
+
     render() {
-        let {title, id, author, dispatch} = this.props;
+        let {title, author, id, dispatch} = this.props;
         return (
 
             <div className="col s12 m4 l4">
-                <form>
-                    <input type="text" id="title" defaultValue={title} ref="title" placeholder="Название книги" />
-                    <input type="text" id="author" defaultValue={author} ref="author" placeholder="Автор книги" />
-                    <button type="submit" className="waves-effect waves-light btn">Сохранить</button>
-                    <button type="button" className="waves-effect waves-light btn" onClick={() => {
-                            dispatch(cancelEditBook(id));
-                        }}>Отмена</button>
-                </form>
+                <div className="card hovered">
+                    <div className="card-content">
+                        <form>
+                            <input type="text" id="title" defaultValue={title} ref="title" placeholder="Book title" />
+                            <input type="text" id="author" defaultValue={author} ref="author" placeholder="Book author" />
+                            <button type="button" className="waves-effect waves-light btn" onClick={this.saveBook}>Save</button>
+                            <button type="button" className="waves-effect waves-light btn" onClick={() => {
+                                        dispatch(cancelEditBook(id));
+                            }}>Cancel</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
         );
@@ -28,15 +45,11 @@ class BookForm extends Component {
 
 BookForm.defaultProps = {
     title: "",
-    author: "",
-    pubDate: "",
-    pages: ""
+    author: ""
 };
 BookForm.propTypes = {
     title: PropTypes.string,
-    author: PropTypes.string,
-    pubDate: PropTypes.string,
-    pages: PropTypes.number
+    author: PropTypes.string
 };
 
 
@@ -44,4 +57,8 @@ BookForm.propTypes = {
 
 
 
-export default connect()(BookForm);
+export default connect((state) => {
+    return {
+        showAddBookForm: state.showAddBookForm
+    };
+})(BookForm);

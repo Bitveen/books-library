@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { toggleAddBookForm } from "actions";
 
 class Nav extends Component {
     constructor(props) {
@@ -8,16 +8,11 @@ class Nav extends Component {
     }
 
     render() {
-        let { dispatch } = this.props;
+        
         return (
             <nav>
                 <div className="nav-wrapper">
                   <a href="#" className="brand-logo">Library</a>
-                  <ul className="right hide-on-med-and-down">
-                    <li><a className="waves-effect waves-light btn" onClick={() => {
-                            dispatch();
-                        }}>Add book</a></li>
-                  </ul>
                 </div>
              </nav>
         );

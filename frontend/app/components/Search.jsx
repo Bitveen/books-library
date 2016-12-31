@@ -19,7 +19,7 @@ class Search extends Component {
         return (
             <div className="search">
                 <div className="divider"></div>
-                <input type="text" ref="searchText" placeholder="Начните вводить название книги..." onChange={this.handleSearch}/>
+                <input type="text" ref="searchText" placeholder="Start type letters..." onChange={this.handleSearch}/>
             </div>
         );
     }

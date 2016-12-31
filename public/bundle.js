@@ -21594,20 +21594,10 @@
 	    function BooksList(props) {
 	        _classCallCheck(this, BooksList);
 
-	        var _this = _possibleConstructorReturn(this, (BooksList.__proto__ || Object.getPrototypeOf(BooksList)).call(this, props));
-
-	        _this.showForm = _this.showForm.bind(_this);
-	        return _this;
+	        return _possibleConstructorReturn(this, (BooksList.__proto__ || Object.getPrototypeOf(BooksList)).call(this, props));
 	    }
 
 	    _createClass(BooksList, [{
-	        key: "showForm",
-	        value: function showForm() {
-	            var dispatch = this.props.dispatch;
-
-	            dispatch((0, _actions.toggleAddBookForm)());
-	        }
-	    }, {
 	        key: "renderBooks",
 	        value: function renderBooks() {
 	            var _props = this.props,
@@ -21624,8 +21614,8 @@
 	            if (!books.length) {
 	                return _react2.default.createElement(
 	                    "h3",
-	                    null,
-	                    "\u041A\u043D\u0438\u0433 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E."
+	                    { className: "center-align" },
+	                    "Couldn't find books."
 	                );
 	            }
 
@@ -21728,7 +21718,7 @@
 	                    } },
 	                _react2.default.createElement(
 	                    "div",
-	                    { className: "card blue-grey darken-1" },
+	                    { className: "card  hovered blue-grey darken-1" },
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "card-content white-text" },
@@ -21763,7 +21753,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.toggleAddBookForm = exports.searchBooks = exports.cancelEditBook = exports.editBook = undefined;
+	exports.saveBook = exports.toggleAddBookForm = exports.searchBooks = exports.cancelEditBook = exports.editBook = undefined;
 
 	var _actionsConstants = __webpack_require__(182);
 
@@ -21796,6 +21786,12 @@
 	        type: types.TOGGLE_ADD_BOOK_FORM
 	    };
 	};
+	var saveBook = exports.saveBook = function saveBook(book) {
+	    return {
+	        type: types.SAVE_BOOK,
+	        book: book
+	    };
+	};
 
 /***/ },
 /* 182 */
@@ -21813,6 +21809,7 @@
 	var CANCEL_EDIT_BOOK = exports.CANCEL_EDIT_BOOK = "CANCEL_EDIT_BOOK";
 	var SET_SEARCH_VALUE = exports.SET_SEARCH_VALUE = "SET_SEARCH_VALUE";
 	var TOGGLE_ADD_BOOK_FORM = exports.TOGGLE_ADD_BOOK_FORM = "TOGGLE_ADD_BOOK_FORM";
+	var SAVE_BOOK = exports.SAVE_BOOK = "SAVE_BOOK";
 
 /***/ },
 /* 183 */
@@ -24071,37 +24068,62 @@
 	    function BookForm(props) {
 	        _classCallCheck(this, BookForm);
 
-	        return _possibleConstructorReturn(this, (BookForm.__proto__ || Object.getPrototypeOf(BookForm)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (BookForm.__proto__ || Object.getPrototypeOf(BookForm)).call(this, props));
+
+	        _this.saveBook = _this.saveBook.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(BookForm, [{
+	        key: "saveBook",
+	        value: function saveBook() {
+	            var _props = this.props,
+	                dispatch = _props.dispatch,
+	                id = _props.id;
+
+	            var title = this.refs.title.value;
+	            var author = this.refs.author.value;
+	            if (title && author) {
+	                dispatch((0, _actions.saveBook)({ id: id, title: title, author: author }));
+	                dispatch((0, _actions.cancelEditBook)(id));
+	            }
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
-	            var _props = this.props,
-	                title = _props.title,
-	                id = _props.id,
-	                author = _props.author,
-	                dispatch = _props.dispatch;
+	            var _props2 = this.props,
+	                title = _props2.title,
+	                author = _props2.author,
+	                id = _props2.id,
+	                dispatch = _props2.dispatch;
 
 	            return _react2.default.createElement(
 	                "div",
 	                { className: "col s12 m4 l4" },
 	                _react2.default.createElement(
-	                    "form",
-	                    null,
-	                    _react2.default.createElement("input", { type: "text", id: "title", defaultValue: title, ref: "title", placeholder: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u043A\u043D\u0438\u0433\u0438" }),
-	                    _react2.default.createElement("input", { type: "text", id: "author", defaultValue: author, ref: "author", placeholder: "\u0410\u0432\u0442\u043E\u0440 \u043A\u043D\u0438\u0433\u0438" }),
+	                    "div",
+	                    { className: "card hovered" },
 	                    _react2.default.createElement(
-	                        "button",
-	                        { type: "submit", className: "waves-effect waves-light btn" },
-	                        "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
-	                    ),
-	                    _react2.default.createElement(
-	                        "button",
-	                        { type: "button", className: "waves-effect waves-light btn", onClick: function onClick() {
-	                                dispatch((0, _actions.cancelEditBook)(id));
-	                            } },
-	                        "\u041E\u0442\u043C\u0435\u043D\u0430"
+	                        "div",
+	                        { className: "card-content" },
+	                        _react2.default.createElement(
+	                            "form",
+	                            null,
+	                            _react2.default.createElement("input", { type: "text", id: "title", defaultValue: title, ref: "title", placeholder: "Book title" }),
+	                            _react2.default.createElement("input", { type: "text", id: "author", defaultValue: author, ref: "author", placeholder: "Book author" }),
+	                            _react2.default.createElement(
+	                                "button",
+	                                { type: "button", className: "waves-effect waves-light btn", onClick: this.saveBook },
+	                                "Save"
+	                            ),
+	                            _react2.default.createElement(
+	                                "button",
+	                                { type: "button", className: "waves-effect waves-light btn", onClick: function onClick() {
+	                                        dispatch((0, _actions.cancelEditBook)(id));
+	                                    } },
+	                                "Cancel"
+	                            )
+	                        )
 	                    )
 	                )
 	            );
@@ -24113,18 +24135,18 @@
 
 	BookForm.defaultProps = {
 	    title: "",
-	    author: "",
-	    pubDate: "",
-	    pages: ""
+	    author: ""
 	};
 	BookForm.propTypes = {
 	    title: _react.PropTypes.string,
-	    author: _react.PropTypes.string,
-	    pubDate: _react.PropTypes.string,
-	    pages: _react.PropTypes.number
+	    author: _react.PropTypes.string
 	};
 
-	exports.default = (0, _reactRedux.connect)()(BookForm);
+	exports.default = (0, _reactRedux.connect)(function (state) {
+	    return {
+	        showAddBookForm: state.showAddBookForm
+	    };
+	})(BookForm);
 
 /***/ },
 /* 222 */
@@ -24181,7 +24203,7 @@
 	                "div",
 	                { className: "search" },
 	                _react2.default.createElement("div", { className: "divider" }),
-	                _react2.default.createElement("input", { type: "text", ref: "searchText", placeholder: "\u041D\u0430\u0447\u043D\u0438\u0442\u0435 \u0432\u0432\u043E\u0434\u0438\u0442\u044C \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u043A\u043D\u0438\u0433\u0438...", onChange: this.handleSearch })
+	                _react2.default.createElement("input", { type: "text", ref: "searchText", placeholder: "Start type letters...", onChange: this.handleSearch })
 	            );
 	        }
 	    }]);
@@ -24209,6 +24231,8 @@
 
 	var _reactRedux = __webpack_require__(183);
 
+	var _actions = __webpack_require__(181);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24229,7 +24253,6 @@
 	    _createClass(Nav, [{
 	        key: "render",
 	        value: function render() {
-	            var dispatch = this.props.dispatch;
 
 	            return _react2.default.createElement(
 	                "nav",
@@ -24241,21 +24264,6 @@
 	                        "a",
 	                        { href: "#", className: "brand-logo" },
 	                        "Library"
-	                    ),
-	                    _react2.default.createElement(
-	                        "ul",
-	                        { className: "right hide-on-med-and-down" },
-	                        _react2.default.createElement(
-	                            "li",
-	                            null,
-	                            _react2.default.createElement(
-	                                "a",
-	                                { className: "waves-effect waves-light btn", onClick: function onClick() {
-	                                        dispatch();
-	                                    } },
-	                                "Add book"
-	                            )
-	                        )
 	                    )
 	                )
 	            );
@@ -24312,25 +24320,16 @@
 	    id: 1,
 	    title: "JavaScript",
 	    author: "Brandon Eich",
-	    pages: 300,
-	    pubDate: "30.11.2015",
-	    tags: ["js", "react", "dom"],
 	    editMode: false
 	}, {
 	    id: 2,
 	    title: "Python",
 	    author: "Guido Van Rossum",
-	    pages: 350,
-	    pubDate: "20.06.2014",
-	    tags: ["python", "sql", "pip"],
 	    editMode: false
 	}, {
 	    id: 3,
 	    title: "PHP",
 	    author: "Rasmus Lerdorf",
-	    pages: 400,
-	    pubDate: "15.05.2011",
-	    tags: ["php", "mysql", "apache"],
 	    editMode: false
 	}];
 
@@ -24358,6 +24357,16 @@
 	                }
 	            });
 	            return books;
+	        case types.SAVE_BOOK:
+	            var books = state.concat([]);
+	            books.forEach(function (book) {
+	                if (action.book.id == book.id) {
+	                    book.title = action.book.title, book.author = action.book.author;
+	                    return;
+	                }
+	            });
+	            return books;
+	            break;
 	        default:
 	            return state;
 	    }
