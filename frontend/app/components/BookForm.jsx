@@ -8,34 +8,17 @@ class BookForm extends Component {
     }
 
     render() {
-        let {title, id, author, pubDate, pages, dispatch} = this.props;
+        let {title, id, author, dispatch} = this.props;
         return (
-            <div className="callout clearfix">
+
+            <div className="col s12 m4 l4">
                 <form>
-                    <div className="row">
-                        <div className="small-3 large-3 columns">
-                          <label htmlFor="title" className="text-right middle">Название книги:</label>
-                        </div>
-                        <div className="small-9 large-9 columns">
-                          <input type="text" id="title" defaultValue={title} ref="title" placeholder="Название книги" />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="small-3 columns">
-                          <label htmlFor="author" className="text-right middle">Автор книги:</label>
-                        </div>
-                        <div className="small-9 columns">
-                          <input type="text" id="author" defaultValue={author} ref="author" placeholder="Автор книги" />
-                        </div>
-                    </div>
-
-                    <div className="button-group float-right">
-                        <button type="submit" className="button success small">Сохранить</button>
-                        <button type="button" className="button alert small" onClick={() => {
-                                dispatch(cancelEditBook(id));
-                            }}>Отмена</button>
-                    </div>
-
+                    <input type="text" id="title" defaultValue={title} ref="title" placeholder="Название книги" />
+                    <input type="text" id="author" defaultValue={author} ref="author" placeholder="Автор книги" />
+                    <button type="submit" className="waves-effect waves-light btn">Сохранить</button>
+                    <button type="button" className="waves-effect waves-light btn" onClick={() => {
+                            dispatch(cancelEditBook(id));
+                        }}>Отмена</button>
                 </form>
             </div>
 

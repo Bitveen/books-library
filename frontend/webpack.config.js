@@ -15,7 +15,8 @@ module.exports = {
             BookForm: "components/BookForm.jsx",
             configureStore: "store/configureStore.jsx",
             reducers: "reducers/reducers.jsx",
-            Search: "components/Search.jsx"
+            Search: "components/Search.jsx",
+            Nav: "components/Nav.jsx"
         },
         extensions: ["", ".js", ".jsx"]
     },

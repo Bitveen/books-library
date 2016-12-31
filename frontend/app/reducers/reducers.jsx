@@ -70,3 +70,15 @@ export const searchReducer = (state = "", action) => {
             return state;
     }
 };
+
+
+export const addBookReducer = (state = false, action) => {
+    switch (action.type) {
+        case types.TOGGLE_ADD_BOOK_FORM:
+            let newState = !state;
+            return newState;
+            break;
+        default:
+            return state;
+    }
+};

@@ -18,6 +18,7 @@ class Search extends Component {
     render() {
         return (
             <div className="search">
+                <div className="divider"></div>
                 <input type="text" ref="searchText" placeholder="Начните вводить название книги..." onChange={this.handleSearch}/>
             </div>
         );

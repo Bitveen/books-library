@@ -12,13 +12,6 @@ store.subscribe(() => {
 });
 
 
-// Foundation
-require("style!css!foundation-sites/dist/css/foundation.min.css");
-
-require("style!css!sass!styles/app.scss");
-
-
-
 
 render(
     <Provider store={store}>

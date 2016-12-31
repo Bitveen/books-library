@@ -19,3 +19,9 @@ export const searchBooks = (text) => {
         text
     };
 };
+
+export const toggleAddBookForm = () => {
+    return {
+        type: types.TOGGLE_ADD_BOOK_FORM
+    };
+};

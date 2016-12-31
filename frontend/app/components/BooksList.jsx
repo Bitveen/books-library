@@ -2,14 +2,20 @@ import React, { Component } from "react";
 import Book from "Book";
 import BookForm from "BookForm";
 import { connect } from "react-redux";
+import { toggleAddBookForm } from "actions";
 
 
 
 class BooksList extends Component {
     constructor(props) {
         super(props);
+        this.showForm = this.showForm.bind(this);
     }
 
+    showForm() {
+        let { dispatch } = this.props;
+        dispatch(toggleAddBookForm());
+    }
 
     renderBooks() {
         let { books, searchText } = this.props;
@@ -37,8 +43,8 @@ class BooksList extends Component {
     render() {
 
         return (
-            <div className="books-list">
-                {this.renderBooks()}
+            <div className="row">
+                { this.renderBooks() }
             </div>
         );
     }
@@ -46,6 +52,7 @@ class BooksList extends Component {
 export default connect((state) => {
     return {
         books: state.books,
-        searchText: state.searchText
+        searchText: state.searchText,
+        showAddBookForm: state.showAddBookForm
     };
 })(BooksList);

@@ -18,15 +18,20 @@ class Book extends Component {
     }
 
     render() {
-        let {title, author, pubDate, pages, id, dispatch} = this.props;
+        let {title, author, id, dispatch} = this.props;
         return (
-            <div className="callout book" onClick={() => {
+            <div className="col s12 m4 l4" onClick={() => {
                     dispatch(editBook(id));
                 }}>
-                <h3>Название: {title}</h3>
-                <h4>Автор: {author}</h4>
-                <h5>Дата издания: {pubDate}</h5>
-                <h5>Количество страниц: {pages}</h5>
+                <div className="card blue-grey darken-1">
+                    <div className="card-content white-text">
+                        <h4 className="card-title">{title}</h4>
+                        <h6>{author}</h6>
+                    </div>
+                    <div className="card-action">
+
+                    </div>
+                </div>
             </div>
         );
     }
